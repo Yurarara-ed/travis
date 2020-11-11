@@ -1,6 +1,4 @@
 before_install: "gradlew gradlew/wrapper/gradle-wrapper.jar"
-jdk: 
-  - oraclejdk8
 language: java
 script: "-./gradlew test build"
 
