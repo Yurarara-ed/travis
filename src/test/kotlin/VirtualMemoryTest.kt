@@ -50,4 +50,15 @@ internal class VirtualMemoryTest {
         assertEquals(result, getRequestsStack(memoryLimit, appeals))
     }
 
+    //Тесты алгоритмов
+
+    @Test
+    fun `fifo`() {
+        val resultOne = mutableListOf(mutableListOf(3, 1, 2, 6, 7), mutableListOf(1, 2))
+        val resultTwo = mutableListOf(mutableListOf(5, 7, 9, 5, 7, 2, 15, 6, 4, 8), mutableListOf(8, 9, 7, 8, 9))
+
+        assertEquals(resultOne, fifo(5, mutableListOf<Number>(1, 2, 3, 1, 2, 6, 7, 1, 2)))
+        assertEquals(resultTwo, fifo(10, mutableListOf<Number>(8, 9, 7, 8, 9, 5, 7, 9, 5, 7, 5, 2, 15, 6, 4, 8, 2)))
+    }
+
 }
