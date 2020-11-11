@@ -73,4 +73,17 @@ internal class VirtualMemoryTest {
         )
     }
 
+    @Test
+    fun `OPT`() {
+        val resultOne = mutableListOf(mutableListOf(6, 7, 2, 3, 5), mutableListOf(2, 3, 5, 1, 4))
+        val resultTwo =
+                mutableListOf(mutableListOf(8, 88, 8, 2, 3, 4, 5, 6, 7, 9), mutableListOf(6, 4, 5, 7, 9, 8, 8, 8))
+
+        assertEquals(resultOne, opt(5, mutableListOf<Number>(1, 2, 3, 4, 5, 6, 7, 1, 1, 1, 2, 3, 5)))
+        assertEquals(
+                resultTwo,
+                opt(10, mutableListOf<Number>(8, 4, 5, 6, 7, 8, 8, 8, 88, 8, 9, 5, 4, 2, 3, 4, 5, 6, 7, 8, 9, 8))
+        )
+    }
+
 }
