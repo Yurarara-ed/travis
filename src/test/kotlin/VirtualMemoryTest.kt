@@ -28,7 +28,7 @@ internal class VirtualMemoryTest {
 
     @Test
     fun `check getting appeals`() {
-        val result = mutableListOf<Number>(6, 5, 6, 8, 9, 8, 7, 8, 9, 1, 100, 200, 600, 8560, 400, 300, 250)
+        val result = mutableListOf<Number>(6, 55, 6, 8, 9, 8, 7, 8, 9, 1, 100, 200, 600, 8560, 400, 300, 250)
         assertEquals(result, getAppeals("testFiles/test.txt"))
     }
 
