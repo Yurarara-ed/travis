@@ -1,4 +1,3 @@
-before_install: "gradle gradle/wrapper/gradle-wrapper.jar"
 language: java
 script: "-./gradle test build"
 
