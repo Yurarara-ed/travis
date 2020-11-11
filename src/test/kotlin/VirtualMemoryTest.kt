@@ -86,4 +86,13 @@ internal class VirtualMemoryTest {
         )
     }
 
+    @Test
+    fun `check difrrence between work of all algos`() {
+        diffrence(
+                fifo(5, mutableListOf<Number>(1, 2, 3, 1, 2, 6, 7, 1, 2, 6, 1)),
+                lru(5, mutableListOf<Number>(1, 2, 3, 1, 2, 6, 7, 1, 2, 6, 1)),
+                opt(5, mutableListOf<Number>(1, 2, 3, 1, 2, 6, 7, 1, 2, 6, 1))
+        )
+    }
+
 }
