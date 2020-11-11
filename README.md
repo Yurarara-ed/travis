@@ -1,66 +1,67 @@
-# Проект «Алгоритмы управления виртуальной памятью»
+# Project Virtual Memory - Pak Yuriy
 
-## Описание предметной области
+#####About program
+My program shows the work of three replacement algorithms: FIFO,LRU 
+and OPT using the example of arrays with numbers
 
-Программа, запущенная на выполнение, с точки зрения операционной системы является *процессом*. Весь исполнямый код и данные при этом образуют адресное пространство этого процесса, то есть процесс может получать доступ к ним по некоторому адресу. Адресное пространство процесса состоит из *страниц*, являющихся неделимыми с точки зрения системы управления памятью элементами.
+#####Input data format
+Create a file with the extension. on one line there should be a memory limit (one number) on another line, numbers separated by a space - a request queue. 
+The program is not sensitive to empty strings as well as multiple data declarations. 
+It uses the first condition processed. 
+###Attention! 
+*The number of requests must be greater than or equal to the memory limit*
 
-Виртуальная память — это механизм расширения оперативной (физической) памяти на внешние носители. Его идея состоит в том, что адресное пространство процесса хранится целиком на внешнем носителе, а в оперативной памяти содержится только часть, необходимая в данный момент.
+##### How to run?
+You need to open terminal at the bottom of your IDE and type
+there: 
+`gradle run --args="[pathToTheFile]"`
 
-В рамках этого проекта нас будут интересовать *алгоритмы замещения*, задача которых — определять, какие из загруженных в оперативную память страниц процесса следует замещать, то есть выгружать обратно на внешний носитель. Алгоритмы замещения позволяют освободить оперативную память, прежде чем загружать с внешнего носителя требуемые процессу страницы.
+Instead of *[pathToTheFile]* you need write the path to your .txt file 
+with an algorithm: `gradle run --args="/Users/mraker/file.txt"`
 
-Будем считать, что размер адресного пространства процесса — **N** страниц, а оперативная память состоит из **M** кадров (один кадр вмещает одну страницу), причём **М<N**. Таким образом, страницы процесса нумеруются от 1 до **N**, а кадры оперативной памяти — от 1 до **M**.
+If you put your file inside **NormalAlgorithms** folder, you will
+need to write only a filename: `gradle run --args="filename.txt"`
 
-Работа процесса с точки зрения системы управления памятью состоит из последовательности обращений к страницам его адресного пространства (то есть последовательность чисел из диапазона от 1 до **N**).
+##### About functions
 
-Алгоритм замещения на очередной требуемый процессу номер страницы должен отвечать одним из следующих способов:
+###### getAppeals
+`fun getAppeals(filepath: String): MutableList<Number>`
+Gets a list of requests. Returns list of numbers
 
-* страница уже загружена в оперативную память, ничего делать не требуется;
-* **K** — номер кадра, который следует заместить.
+###### fillMemory
+`fun fillMemory(memorylimit: Int, appeals: MutableList<Number>): MutableList<Number>`
+Primary filling of RAM. Returns an array of numbers
 
-При этом алгоритм замещения при каждом обращении к странице может сохранять в своих структурах данных необходимую ему для работы внутреннюю информацию.
+###### getRequestsStack
+`fun getRequestsStack(memorylimit: Int, appeals: MutableList<Number>): MutableList<Number>`
+Getting a list of requests after the initial filling of RAM. Returns an array of numbers
 
-Эффективность алгоритма замещения оценивается по числу ответов второго типа за всё время жизни процесса: чем их меньше, тем лучше. На замещение страницы требуется много времени: необходимо сохранить замещаемую страницу на внешний носитель (это делается, если в её содержимом произошли изменения) и загрузить на её место новую.
+###### writingResult
+`fun writingResult(lines: MutableList<String>)`
+The function converts data from the array resulting from the execution of the function "substitution" 
+into a string and writes it to a file "output.txt" in main directory
 
-Известно множество алгоритмов замещения. Можно считать, что все они работают одинаково, пока в оперативной памяти имеются свободные кадры: например, выбирается свободный кадр с наименьшим номером. Отличия начинаются, когда оперативная память полностью загружена. Нас будут интересовать следующие алгоритмы замещения:
+###### predictFuture
+`fun predictFuture(memory: MutableList<Number>, requests: MutableList<Number>, index: Int): List<Frame>`
+This function predicts the future. Not literally, of course. Going through the list of requests, 
+it counts the number of calls of a particular operation 
+and displays the one to which there were the least number of calls.
 
-* FIFO (first in — first out): замещается та страница, которая попала в оперативную память раньше всех остальных;
-* LRU (least recently used): замещается страница, к которой дольше всего не было обращений;
-* OPT (optimal): замещается страница, к которой дольше всего не будет обращений (понятно, что этот алгоритм нельзя реализовать на практике, поскольку он требует знания будущего, однако его результаты удобно использовать для анализа эффективности других алгоритмов).
+###### checkFilesProperties
+`fun checkFilesProperties(filepath: String): Boolean`
+The function checks the file extension and its input
+1. Compliance of the file extension to the ".txt" format
+2. The presence of text inside the file
+3. The presence of a condition inside the file
 
-Некоторые алгоритмы замещения учитывают не только обращения к страницам, но и различают операции на чтение и запись, поддерживая тем самым данные о модифицированности содержимого страницы в оперативной памяти относительно её содержимого на внешнем носителе. Замещать немодифицированную страницу выгоднее, поскольку её не требуется сохранять на внешний носитель. К ним, к примеру, относятся алгоритмы NRU (not recently used) и CLOCK (часовой алгоритм) — их описание нетрудно найти в открытых источниках.
+###### getMemoryLimit
+`fun getMemoryLimit(filepath: String): Int`
+Gets the virtual memory limit. Returns Int
 
 
-## Задание
 
-Напишите программу, которая по заданной последовательности обращений к страницам процесса выдаёт последовательности ответов трёх алгоритмов замещения (FIFO, LRU и OPT) и сравнивает их между собой по числу ответов второго типа.
-
-### Требования к реализации
-
-* Язык программирования: Kotlin (СП), Python (МААД).
-* Точка входа в программу: `src/VirtualMemory.kt` (СП), `src/virtual_memory.py` (МААД).
-* Интерфейс: чтение данных из файлов, передача имён файлов и других параметров через командную строку (консольный ввод не допускается), поддержка однократного запуска и пакетной обработки.
-* Модульное тестирование: необходимы тесты для отдельных функций.
-* Случайная генерация последовательностей обращений к страницам для подготовки тестовых данных для внешнего тестирования.
-
-### Дополнительные требования
-
-* Документация: описание порядка использования программы, форматов входных данных и результатов (файл `DOC.md`).
-* Примеры для внешнего тестирования: программа должна сопровождаться примерами входных данных (файлы в подкаталоге `data`).
-* Разработка должна вестись регулярно, история коммитов должна отражать процесс разработки, сообщения коммитов рекомендуется писать на английском языке (но сообщения на русском языке также допускаются).
-
-### Возможности для расширения проекта (необязательное задание)
-
-* Построение графика числа ответов второго типа в зависимости от числа обращений к страницам памяти.
-* Реализация алгоритмов замещения с учётом модифицированности страниц в оперативной памяти.
-
-### Самостоятельно принимаемые решения
-
-* Форматы входных данных и результатов, способы их передачи в программу.
-* Способы организации тестирования.
-* Модульная структура, разбиение на функции.
-
-## Сроки выполнения и порядок оценивания
-
-* Мягкий дедлайн: 28 сентября, 23:55.
-* Жёсткий дедлайн: спустя 4 полных дня с момента получения результатов первого обзора кода.
-* [Критерии оценивания](http://bit.ly/mkn-prog-criteria).
+###### FIFO LRU and OPT
+This functions is an engine of this program.
+All of them get the memory limit and appeals, Then the work of the replacement algorithms is calculated.
+Returns the same types of data. MutableList<MutableList<Number>>
+Only opt have include method (predictFuture)
