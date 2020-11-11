@@ -61,4 +61,16 @@ internal class VirtualMemoryTest {
         assertEquals(resultTwo, fifo(10, mutableListOf<Number>(8, 9, 7, 8, 9, 5, 7, 9, 5, 7, 5, 2, 15, 6, 4, 8, 2)))
     }
 
+    @Test
+    fun `LRU`() {
+        val resultOne = mutableListOf(mutableListOf(3, 7, 2, 6, 1), mutableListOf(1, 2))
+        val resultTwo = mutableListOf(mutableListOf(9, 6, 24, 7, 8, 2, 4, 5), mutableListOf(8, 7, 8, 5, 2, 1, 47))
+
+        assertEquals(resultOne, lru(5, mutableListOf<Number>(1, 2, 3, 1, 2, 6, 7, 1, 2, 6, 1)))
+        assertEquals(
+                resultTwo,
+                lru(8, mutableListOf<Number>(8, 7, 9, 8, 5, 2, 47, 5, 2, 1, 47, 9, 6, 5, 24, 7, 8, 5, 2, 4, 5))
+        )
+    }
+
 }
